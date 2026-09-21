@@ -14,17 +14,31 @@ class HorarioController extends Controller
     /**
      * Mostrar la lista de horarios.
      */
-    public function index()
-    {
-        $horarios = Horario::with([
-            'docente',
-            'materia',
-            'grupo',
-            'salon'
-        ])->get();
+ /**
+ * Mostrar la lista de horarios.
+ */
+public function index(Request $request)
+{
+    $docentes = Docente::where('activo', true)->get();
 
-        return view('horarios.index', compact('horarios'));
+    $consulta = Horario::with([
+        'docente',
+        'materia',
+        'grupo',
+        'salon'
+    ]);
+
+    if ($request->filled('docente_id')) {
+        $consulta->where('docente_id', $request->docente_id);
     }
+
+    $horarios = $consulta->get();
+
+    return view('horarios.index', compact(
+        'horarios',
+        'docentes'
+    ));
+}
 
     /**
      * Mostrar el formulario para registrar un horario.
