@@ -54,10 +54,40 @@ class HorarioController extends Controller
             'materia_id' => 'required|exists:materias,id',
             'grupo_id' => 'required|exists:grupos,id',
             'salon_id' => 'required|exists:salons,id',
-       'dia_semana' => 'required|string|max:20',
+            'dia_semana' => 'required|string|max:20',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
         ]);
+
+        /*
+         * Verificar conflictos de horario.
+         *
+         * No se permite que se repita el mismo:
+         * - Docente
+         * - Grupo
+         * - Salón
+         *
+         * En el mismo día y en horarios que se crucen.
+         */
+        $conflicto = Horario::where('dia_semana', $datos['dia_semana'])
+            ->where(function ($query) use ($datos) {
+                $query->where('docente_id', $datos['docente_id'])
+                    ->orWhere('grupo_id', $datos['grupo_id'])
+                    ->orWhere('salon_id', $datos['salon_id']);
+            })
+            ->where(function ($query) use ($datos) {
+                $query->where('hora_inicio', '<', $datos['hora_fin'])
+                    ->where('hora_fin', '>', $datos['hora_inicio']);
+            })
+            ->exists();
+
+        if ($conflicto) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'hora_inicio' => 'Existe un conflicto de horario con el docente, grupo o salón seleccionado.',
+                ]);
+        }
 
         Horario::create($datos);
 
@@ -114,10 +144,37 @@ class HorarioController extends Controller
             'materia_id' => 'required|exists:materias,id',
             'grupo_id' => 'required|exists:grupos,id',
             'salon_id' => 'required|exists:salons,id',
-        'dia_semana' => 'required|string|max:20',
+            'dia_semana' => 'required|string|max:20',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i|after:hora_inicio',
         ]);
+
+        /*
+         * Verificar conflictos de horario al editar.
+         *
+         * Se excluye el horario actual para que no
+         * se detecte a sí mismo como un conflicto.
+         */
+        $conflicto = Horario::where('id', '!=', $horario->id)
+            ->where('dia_semana', $datos['dia_semana'])
+            ->where(function ($query) use ($datos) {
+                $query->where('docente_id', $datos['docente_id'])
+                    ->orWhere('grupo_id', $datos['grupo_id'])
+                    ->orWhere('salon_id', $datos['salon_id']);
+            })
+            ->where(function ($query) use ($datos) {
+                $query->where('hora_inicio', '<', $datos['hora_fin'])
+                    ->where('hora_fin', '>', $datos['hora_inicio']);
+            })
+            ->exists();
+
+        if ($conflicto) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'hora_inicio' => 'Existe un conflicto de horario con el docente, grupo o salón seleccionado.',
+                ]);
+        }
 
         $horario->update($datos);
 
