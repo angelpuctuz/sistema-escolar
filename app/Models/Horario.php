@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Horario extends Model
 {
+    use HasFactory;
+
     protected $table = 'horarios';
 
     protected $fillable = [
@@ -19,22 +21,22 @@ class Horario extends Model
         'hora_fin',
     ];
 
-    public function docente(): BelongsTo
+    public function docente()
     {
         return $this->belongsTo(Docente::class);
     }
 
-    public function materia(): BelongsTo
+    public function materia()
     {
         return $this->belongsTo(Materia::class);
     }
 
-    public function grupo(): BelongsTo
+    public function grupo()
     {
         return $this->belongsTo(Grupo::class);
     }
 
-    public function salon(): BelongsTo
+    public function salon()
     {
         return $this->belongsTo(Salon::class);
     }

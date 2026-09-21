@@ -8,18 +8,16 @@ class Materia extends Model
 {
     protected $table = 'materias';
 
-    protected $fillable = [
-        'clave',
-        'nombre',
-        'descripcion',
-        'semestre',
-        'creditos',
-        'activa',
-    ];
+   protected $fillable = [
+    'clave',
+    'nombre',
+    'descripcion',
+    'semestre',
+    'activa',
+];
 
     protected $casts = [
         'semestre' => 'integer',
-        'creditos' => 'integer',
         'activa' => 'boolean',
     ];
 }
