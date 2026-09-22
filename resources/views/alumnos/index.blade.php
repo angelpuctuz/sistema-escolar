@@ -1,6 +1,6 @@
-
 <x-app-layout>
-    <x-slot name="header">
+<x-boton-inicio /> 
+<x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Gestión de Alumnos') }}
         </h2>
@@ -151,4 +151,5 @@
 
         </div>
     </div>
+    
 </x-app-layout>

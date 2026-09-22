@@ -1,122 +1,240 @@
 
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Sistema Integral de Gestión Escolar') }}
-        </h2>
-    </x-slot>
+    <div class="min-h-screen bg-gray-100">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <!-- Encabezado superior -->
+        <header class="bg-slate-800 shadow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
 
-            <!-- Mensaje de bienvenida -->
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                <div class="p-6 text-gray-900">
-                    <h3 class="text-2xl font-bold mb-2">
-                        ¡Bienvenido al sistema escolar!
-                    </h3>
+                    <div class="flex items-center">
+                        <span class="text-xl font-bold text-white">
+                            SISTEMA ESCOLAR
+                        </span>
+                    </div>
 
-                    <p class="text-gray-600">
-                        Desde este panel podrás acceder a los diferentes
-                        módulos de gestión escolar.
-                    </p>
+                    <div class="text-sm text-gray-200">
+                        Panel principal
+                    </div>
+
                 </div>
             </div>
+        </header>
 
-            <!-- Módulos del sistema -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Contenido principal -->
+        <div class="flex">
 
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold text-gray-800">
+            <!-- Barra lateral -->
+            <aside class="w-64 min-h-screen bg-slate-900 text-white hidden md:block">
+
+                <div class="p-6">
+                    <h2 class="text-lg font-bold">
+                        Menú principal
+                    </h2>
+                </div>
+
+                <nav class="px-4 space-y-2">
+
+                    <a href="{{ route('dashboard') }}"
+                       class="block px-4 py-3 rounded-lg bg-slate-700 hover:bg-slate-600">
+                        Inicio
+                    </a>
+
+                    <a href="{{ route('alumnos.index') }}"
+                       class="block px-4 py-3 rounded-lg hover:bg-slate-700">
                         Gestión de Alumnos
-                    </h3>
-                    <p class="text-gray-600 mt-2">
-                        Administra la información de los alumnos.
-                    </p>
-                </div>
+                    </a>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold text-gray-800">
+                    <a href="{{ route('docentes.index') }}"
+                       class="block px-4 py-3 rounded-lg hover:bg-slate-700">
                         Gestión de Docentes
-                    </h3>
-                    <p class="text-gray-600 mt-2">
-                        Administra la información de los docentes.
-                    </p>
-                </div>
+                    </a>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold text-gray-800">
-                        Horarios y Materias
-                    </h3>
-                    <p class="text-gray-600 mt-2">
-                        Organiza horarios, materias y grupos.
-                    </p>
-                </div>
+                    <a href="{{ route('materias.index') }}"
+                       class="block px-4 py-3 rounded-lg hover:bg-slate-700">
+                        Gestión de Materias
+                    </a>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold text-gray-800">
+                    <a href="{{ route('horarios.index') }}"
+                       class="block px-4 py-3 rounded-lg hover:bg-slate-700">
+                        Horarios
+                    </a>
+
+                    <div class="border-t border-slate-700 my-4"></div>
+
+                    <span class="block px-4 py-2 text-xs uppercase text-gray-400">
+                        Otros módulos
+                    </span>
+
+                    <a href="#"
+                       class="block px-4 py-3 rounded-lg text-gray-400 hover:bg-slate-700">
                         Incidencias y Tutorías
-                    </h3>
-                    <p class="text-gray-600 mt-2">
-                        Registra incidencias y seguimiento de alumnos.
-                    </p>
-                </div>
+                    </a>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold text-gray-800">
-                        Usuarios y Roles
-                    </h3>
-                    <p class="text-gray-600 mt-2">
-                        Administra usuarios y permisos del sistema.
-                    </p>
-                </div>
-
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold text-gray-800">
-                        Eventos Escolares
-                    </h3>
-                    <p class="text-gray-600 mt-2">
-                        Organiza eventos y actividades escolares.
-                    </p>
-                </div>
-
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold text-gray-800">
-                        Préstamo de Equipo
-                    </h3>
-                    <p class="text-gray-600 mt-2">
-                        Controla el préstamo de equipos tecnológicos.
-                    </p>
-                </div>
-
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold text-gray-800">
+                    <a href="#"
+                       class="block px-4 py-3 rounded-lg text-gray-400 hover:bg-slate-700">
                         Calificaciones y Boletas
-                    </h3>
-                    <p class="text-gray-600 mt-2">
-                        Registra calificaciones y genera boletas.
-                    </p>
-                </div>
+                    </a>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold text-gray-800">
+                    <a href="#"
+                       class="block px-4 py-3 rounded-lg text-gray-400 hover:bg-slate-700">
+                        Eventos Escolares
+                    </a>
+
+                    <a href="#"
+                       class="block px-4 py-3 rounded-lg text-gray-400 hover:bg-slate-700">
+                        Préstamo de Equipo
+                    </a>
+
+                    <a href="#"
+                       class="block px-4 py-3 rounded-lg text-gray-400 hover:bg-slate-700">
                         Centro de Cómputo
-                    </h3>
-                    <p class="text-gray-600 mt-2">
-                        Administra los préstamos del centro de cómputo.
-                    </p>
-                </div>
+                    </a>
 
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold text-gray-800">
+                    <a href="#"
+                       class="block px-4 py-3 rounded-lg text-gray-400 hover:bg-slate-700">
                         Generación de Documentos
-                    </h3>
+                    </a>
+
+                </nav>
+            </aside>
+
+            <!-- Área de trabajo -->
+            <main class="flex-1 p-6">
+
+                <!-- Bienvenida -->
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-800">
+                        Bienvenido al sistema escolar
+                    </h1>
+
                     <p class="text-gray-600 mt-2">
-                        Genera documentos escolares automáticamente.
+                        Administra y consulta la información de tu institución
+                        desde este panel principal.
                     </p>
                 </div>
 
-            </div>
+                <!-- Tarjetas de resumen -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+                    <div class="bg-white rounded-xl shadow p-6 border-l-4 border-blue-500">
+                        <p class="text-sm text-gray-500">
+                            Alumnos
+                        </p>
+
+                        <p class="text-3xl font-bold text-gray-800 mt-2">
+                            --
+                        </p>
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            Registros del sistema
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow p-6 border-l-4 border-green-500">
+                        <p class="text-sm text-gray-500">
+                            Docentes
+                        </p>
+
+                        <p class="text-3xl font-bold text-gray-800 mt-2">
+                            --
+                        </p>
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            Registros del sistema
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow p-6 border-l-4 border-purple-500">
+                        <p class="text-sm text-gray-500">
+                            Materias
+                        </p>
+
+                        <p class="text-3xl font-bold text-gray-800 mt-2">
+                            --
+                        </p>
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            Registros del sistema
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow p-6 border-l-4 border-orange-500">
+                        <p class="text-sm text-gray-500">
+                            Horarios
+                        </p>
+
+                        <p class="text-3xl font-bold text-gray-800 mt-2">
+                            --
+                        </p>
+
+                        <p class="text-sm text-gray-500 mt-2">
+                            Registros del sistema
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Accesos rápidos -->
+                <div class="bg-white rounded-xl shadow p-6">
+
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">
+                        Accesos rápidos
+                    </h2>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+                        <a href="{{ route('alumnos.index') }}"
+                           class="p-5 rounded-lg bg-blue-50 hover:bg-blue-100 border border-blue-200">
+                            <h3 class="font-bold text-blue-800">
+                                Alumnos
+                            </h3>
+
+                            <p class="text-sm text-gray-600 mt-2">
+                                Consultar y administrar alumnos.
+                            </p>
+                        </a>
+
+                        <a href="{{ route('docentes.index') }}"
+                           class="p-5 rounded-lg bg-green-50 hover:bg-green-100 border border-green-200">
+                            <h3 class="font-bold text-green-800">
+                                Docentes
+                            </h3>
+
+                            <p class="text-sm text-gray-600 mt-2">
+                                Consultar y administrar docentes.
+                            </p>
+                        </a>
+
+                        <a href="{{ route('materias.index') }}"
+                           class="p-5 rounded-lg bg-purple-50 hover:bg-purple-100 border border-purple-200">
+                            <h3 class="font-bold text-purple-800">
+                                Materias
+                            </h3>
+
+                            <p class="text-sm text-gray-600 mt-2">
+                                Consultar las materias registradas.
+                            </p>
+                        </a>
+
+                        <a href="{{ route('horarios.index') }}"
+                           class="p-5 rounded-lg bg-orange-50 hover:bg-orange-100 border border-orange-200">
+                            <h3 class="font-bold text-orange-800">
+                                Horarios
+                            </h3>
+
+                            <p class="text-sm text-gray-600 mt-2">
+                                Consultar y administrar horarios.
+                            </p>
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </main>
+
         </div>
+
     </div>
 </x-app-layout>

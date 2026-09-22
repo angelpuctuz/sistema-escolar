@@ -14,31 +14,78 @@ class HorarioController extends Controller
     /**
      * Mostrar la lista de horarios.
      */
- /**
- * Mostrar la lista de horarios.
- */
-public function index(Request $request)
-{
-    $docentes = Docente::where('activo', true)->get();
+    public function index(Request $request)
+    {
+        // Obtener docentes activos para el filtro.
+        $docentes = Docente::where('activo', true)
+            ->orderBy('nombres')
+            ->get();
 
-    $consulta = Horario::with([
-        'docente',
-        'materia',
-        'grupo',
-        'salon'
-    ]);
+        // Obtener los grupos para el filtro.
+        $grupos = Grupo::orderBy('grado')
+            ->orderBy('nombre')
+            ->get();
 
-    if ($request->filled('docente_id')) {
-        $consulta->where('docente_id', $request->docente_id);
+        // Obtener los grados disponibles sin repetir.
+        $grados = Grupo::select('grado')
+            ->distinct()
+            ->orderBy('grado')
+            ->pluck('grado');
+
+        // Crear consulta de horarios con sus relaciones.
+        $consulta = Horario::with([
+            'docente',
+            'materia',
+            'grupo',
+            'salon'
+        ]);
+
+        /*
+         * FILTRO POR DOCENTE
+         */
+        if ($request->filled('docente_id')) {
+            $consulta->where(
+                'docente_id',
+                $request->docente_id
+            );
+        }
+
+        /*
+         * FILTRO POR GRADO
+         *
+         * El grado se obtiene de la tabla grupos.
+         */
+        if ($request->filled('grado')) {
+            $consulta->whereHas('grupo', function ($query) use ($request) {
+                $query->where('grado', $request->grado);
+            });
+        }
+
+        /*
+         * FILTRO POR GRUPO
+         */
+        if ($request->filled('grupo_id')) {
+            $consulta->where(
+                'grupo_id',
+                $request->grupo_id
+            );
+        }
+
+        /*
+         * Obtener horarios ordenados por día y hora.
+         */
+        $horarios = $consulta
+            ->orderBy('dia_semana')
+            ->orderBy('hora_inicio')
+            ->get();
+
+        return view('horarios.index', compact(
+            'horarios',
+            'docentes',
+            'grupos',
+            'grados'
+        ));
     }
-
-    $horarios = $consulta->get();
-
-    return view('horarios.index', compact(
-        'horarios',
-        'docentes'
-    ));
-}
 
     /**
      * Mostrar el formulario para registrar un horario.
@@ -46,8 +93,11 @@ public function index(Request $request)
     public function create()
     {
         $docentes = Docente::where('activo', true)->get();
+
         $materias = Materia::where('activa', true)->get();
+
         $grupos = Grupo::all();
+
         $salones = Salon::all();
 
         return view('horarios.create', compact(
@@ -83,15 +133,35 @@ public function index(Request $request)
          *
          * En el mismo día y en horarios que se crucen.
          */
-        $conflicto = Horario::where('dia_semana', $datos['dia_semana'])
+        $conflicto = Horario::where(
+                'dia_semana',
+                $datos['dia_semana']
+            )
             ->where(function ($query) use ($datos) {
-                $query->where('docente_id', $datos['docente_id'])
-                    ->orWhere('grupo_id', $datos['grupo_id'])
-                    ->orWhere('salon_id', $datos['salon_id']);
+                $query->where(
+                    'docente_id',
+                    $datos['docente_id']
+                )
+                ->orWhere(
+                    'grupo_id',
+                    $datos['grupo_id']
+                )
+                ->orWhere(
+                    'salon_id',
+                    $datos['salon_id']
+                );
             })
             ->where(function ($query) use ($datos) {
-                $query->where('hora_inicio', '<', $datos['hora_fin'])
-                    ->where('hora_fin', '>', $datos['hora_inicio']);
+                $query->where(
+                    'hora_inicio',
+                    '<',
+                    $datos['hora_fin']
+                )
+                ->where(
+                    'hora_fin',
+                    '>',
+                    $datos['hora_inicio']
+                );
             })
             ->exists();
 
@@ -99,7 +169,8 @@ public function index(Request $request)
             return back()
                 ->withInput()
                 ->withErrors([
-                    'hora_inicio' => 'Existe un conflicto de horario con el docente, grupo o salón seleccionado.',
+                    'hora_inicio' =>
+                        'Existe un conflicto de horario con el docente, grupo o salón seleccionado.',
                 ]);
         }
 
@@ -107,7 +178,10 @@ public function index(Request $request)
 
         return redirect()
             ->route('horarios.index')
-            ->with('success', 'Horario registrado correctamente.');
+            ->with(
+                'success',
+                'Horario registrado correctamente.'
+            );
     }
 
     /**
@@ -133,8 +207,11 @@ public function index(Request $request)
         $horario = Horario::findOrFail($id);
 
         $docentes = Docente::where('activo', true)->get();
+
         $materias = Materia::where('activa', true)->get();
+
         $grupos = Grupo::all();
+
         $salones = Salon::all();
 
         return view('horarios.edit', compact(
@@ -169,16 +246,40 @@ public function index(Request $request)
          * Se excluye el horario actual para que no
          * se detecte a sí mismo como un conflicto.
          */
-        $conflicto = Horario::where('id', '!=', $horario->id)
-            ->where('dia_semana', $datos['dia_semana'])
+        $conflicto = Horario::where(
+                'id',
+                '!=',
+                $horario->id
+            )
+            ->where(
+                'dia_semana',
+                $datos['dia_semana']
+            )
             ->where(function ($query) use ($datos) {
-                $query->where('docente_id', $datos['docente_id'])
-                    ->orWhere('grupo_id', $datos['grupo_id'])
-                    ->orWhere('salon_id', $datos['salon_id']);
+                $query->where(
+                    'docente_id',
+                    $datos['docente_id']
+                )
+                ->orWhere(
+                    'grupo_id',
+                    $datos['grupo_id']
+                )
+                ->orWhere(
+                    'salon_id',
+                    $datos['salon_id']
+                );
             })
             ->where(function ($query) use ($datos) {
-                $query->where('hora_inicio', '<', $datos['hora_fin'])
-                    ->where('hora_fin', '>', $datos['hora_inicio']);
+                $query->where(
+                    'hora_inicio',
+                    '<',
+                    $datos['hora_fin']
+                )
+                ->where(
+                    'hora_fin',
+                    '>',
+                    $datos['hora_inicio']
+                );
             })
             ->exists();
 
@@ -186,7 +287,8 @@ public function index(Request $request)
             return back()
                 ->withInput()
                 ->withErrors([
-                    'hora_inicio' => 'Existe un conflicto de horario con el docente, grupo o salón seleccionado.',
+                    'hora_inicio' =>
+                        'Existe un conflicto de horario con el docente, grupo o salón seleccionado.',
                 ]);
         }
 
@@ -194,7 +296,10 @@ public function index(Request $request)
 
         return redirect()
             ->route('horarios.index')
-            ->with('success', 'Horario actualizado correctamente.');
+            ->with(
+                'success',
+                'Horario actualizado correctamente.'
+            );
     }
 
     /**
@@ -208,6 +313,9 @@ public function index(Request $request)
 
         return redirect()
             ->route('horarios.index')
-            ->with('success', 'Horario eliminado correctamente.');
+            ->with(
+                'success',
+                'Horario eliminado correctamente.'
+            );
     }
 }

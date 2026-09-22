@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Materias</title>
 </head>
+
 <body style="font-family: Arial, sans-serif; background-color: #f4f6f9; padding: 30px;">
 
     <div style="max-width: 1200px; margin: auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-
+<x-boton-inicio />
         <h1 style="color: #333;">Gestión de Materias</h1>
 
         <a href="{{ route('materias.create') }}"
