@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\GrupoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,8 +29,13 @@ Route::resource('docentes', DocenteController::class)
 // Rutas de Gestión de Materias
 Route::resource('materias', MateriaController::class)
     ->middleware('auth');
+
 // Rutas de Horarios y Asignación de Materias
 Route::resource('horarios', HorarioController::class)
+    ->middleware('auth');
+    
+    // Rutas de Gestión de Grupos
+Route::resource('grupos', GrupoController::class)
     ->middleware('auth');
     
 Route::middleware('auth')->group(function () {

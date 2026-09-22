@@ -1,6 +1,8 @@
 <x-app-layout>
-<x-boton-inicio /> 
-<x-slot name="header">
+
+    <x-boton-inicio />
+
+    <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Gestión de Alumnos') }}
         </h2>
@@ -94,11 +96,19 @@
                                         </td>
 
                                         <td style="border: 1px solid #d1d5db; padding: 12px;">
-                                            {{ $alumno->grado }}
+                                            @if($alumno->grupo)
+                                                {{ $alumno->grupo->grado }}
+                                            @else
+                                                Sin grupo
+                                            @endif
                                         </td>
 
                                         <td style="border: 1px solid #d1d5db; padding: 12px;">
-                                            {{ $alumno->grupo }}
+                                            @if($alumno->grupo)
+                                                {{ $alumno->grupo->nombre }}
+                                            @else
+                                                Sin grupo
+                                            @endif
                                         </td>
 
                                         <td style="border: 1px solid #d1d5db; padding: 12px;">
@@ -151,5 +161,5 @@
 
         </div>
     </div>
-    
+
 </x-app-layout>

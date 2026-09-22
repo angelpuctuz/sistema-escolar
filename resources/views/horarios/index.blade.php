@@ -18,7 +18,9 @@
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     ">
-<x-boton-inicio />
+
+        <x-boton-inicio />
+
         <h1 style="color: #333;">
             Horarios y Asignación de Materias
         </h1>
@@ -72,9 +74,7 @@
         ">
 
             <h2 style="color: #333; margin-top: 0;">
-
                 Consultar horarios
-
             </h2>
 
 
@@ -107,9 +107,7 @@
                         ">
 
                     <option value="">
-
                         -- Mostrar todos los grados --
-
                     </option>
 
 
@@ -154,9 +152,7 @@
                         ">
 
                     <option value="">
-
                         -- Mostrar todos los grupos --
-
                     </option>
 
 
@@ -165,7 +161,7 @@
                         <option value="{{ $grupo->id }}"
                             {{ request('grupo_id') == $grupo->id ? 'selected' : '' }}>
 
-                            {{ $grupo->nombre }} - {{ $grupo->grado }}
+                            {{ $grupo->grado }}° {{ $grupo->nombre }}
 
                         </option>
 
@@ -201,9 +197,7 @@
                         ">
 
                     <option value="">
-
                         -- Mostrar todos los docentes --
-
                     </option>
 
 
@@ -379,9 +373,21 @@
 
                             {{-- GRUPO --}}
 
-                            <td style="padding: 10px; border: 1px solid #ddd;">
+                            <td style="
+                                padding: 10px;
+                                border: 1px solid #ddd;
+                                font-weight: bold;
+                            ">
 
-                                {{ $horario->grupo->nombre ?? 'Sin grupo' }}
+                                @if($horario->grupo)
+
+                                    {{ $horario->grupo->grado }}° {{ $horario->grupo->nombre }}
+
+                                @else
+
+                                    Sin grupo
+
+                                @endif
 
                             </td>
 
@@ -795,7 +801,15 @@
 
                                             Grupo:
 
-                                            {{ $horaEncontrada->grupo->nombre ?? 'Sin grupo' }}
+                                            @if($horaEncontrada->grupo)
+
+                                                {{ $horaEncontrada->grupo->grado }}° {{ $horaEncontrada->grupo->nombre }}
+
+                                            @else
+
+                                                Sin grupo
+
+                                            @endif
 
 
                                             <br>

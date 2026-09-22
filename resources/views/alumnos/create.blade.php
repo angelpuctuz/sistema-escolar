@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -28,9 +27,14 @@
                                 type="text"
                                 name="idmatricula"
                                 id="idmatricula"
+                                value="{{ old('idmatricula') }}"
                                 required
                                 class="block mt-1 w-full border-gray-300 rounded-md shadow-sm"
                             >
+
+                            @error('idmatricula')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="mb-4">
@@ -42,9 +46,14 @@
                                 type="text"
                                 name="nombres"
                                 id="nombres"
+                                value="{{ old('nombres') }}"
                                 required
                                 class="block mt-1 w-full border-gray-300 rounded-md shadow-sm"
                             >
+
+                            @error('nombres')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="mb-4">
@@ -56,9 +65,14 @@
                                 type="text"
                                 name="apellidos"
                                 id="apellidos"
+                                value="{{ old('apellidos') }}"
                                 required
                                 class="block mt-1 w-full border-gray-300 rounded-md shadow-sm"
                             >
+
+                            @error('apellidos')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="mb-4">
@@ -70,38 +84,41 @@
                                 type="email"
                                 name="email"
                                 id="email"
+                                value="{{ old('email') }}"
                                 class="block mt-1 w-full border-gray-300 rounded-md shadow-sm"
                             >
-                        </div>
 
-                        <div class="mb-4">
-                            <label for="grado" class="block font-medium text-sm text-gray-700">
-                                Grado
-                            </label>
-
-                            <input
-                                type="number"
-                                name="grado"
-                                id="grado"
-                                min="1"
-                                max="6"
-                                required
-                                class="block mt-1 w-full border-gray-300 rounded-md shadow-sm"
-                            >
+                            @error('email')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="mb-6">
-                            <label for="grupo" class="block font-medium text-sm text-gray-700">
+                            <label for="grupo_id" class="block font-medium text-sm text-gray-700">
                                 Grupo
                             </label>
 
-                            <input
-                                type="text"
-                                name="grupo"
-                                id="grupo"
+                            <select
+                                name="grupo_id"
+                                id="grupo_id"
                                 required
                                 class="block mt-1 w-full border-gray-300 rounded-md shadow-sm"
                             >
+                                <option value="">Selecciona un grupo</option>
+
+                                @foreach($grupos as $grupo)
+                                    <option
+                                        value="{{ $grupo->id }}"
+                                        {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}
+                                    >
+                                        {{ $grupo->grado }}° {{ $grupo->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('grupo_id')
+                                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="flex items-center gap-4">

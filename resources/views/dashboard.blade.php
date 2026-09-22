@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <div class="min-h-screen bg-gray-100">
 
@@ -53,6 +52,12 @@
                     <a href="{{ route('materias.index') }}"
                        class="block px-4 py-3 rounded-lg hover:bg-slate-700">
                         Gestión de Materias
+                    </a>
+
+                    <!-- Gestión de Grupos -->
+                    <a href="{{ route('grupos.index') }}"
+                       class="block px-4 py-3 rounded-lg hover:bg-slate-700">
+                        Gestión de Grupos
                     </a>
 
                     <a href="{{ route('horarios.index') }}"
@@ -182,7 +187,7 @@
                         Accesos rápidos
                     </h2>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
 
                         <a href="{{ route('alumnos.index') }}"
                            class="p-5 rounded-lg bg-blue-50 hover:bg-blue-100 border border-blue-200">
@@ -214,6 +219,18 @@
 
                             <p class="text-sm text-gray-600 mt-2">
                                 Consultar las materias registradas.
+                            </p>
+                        </a>
+
+                        <!-- Acceso rápido a Grupos -->
+                        <a href="{{ route('grupos.index') }}"
+                           class="p-5 rounded-lg bg-indigo-50 hover:bg-indigo-100 border border-indigo-200">
+                            <h3 class="font-bold text-indigo-800">
+                                Grupos
+                            </h3>
+
+                            <p class="text-sm text-gray-600 mt-2">
+                                Consultar y administrar grupos.
                             </p>
                         </a>
 

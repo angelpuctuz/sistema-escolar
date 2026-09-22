@@ -15,5 +15,14 @@ class Alumno extends Model
         'email',
         'grado',
         'grupo',
+        'grupo_id',
     ];
+
+    /**
+     * Relación: un alumno pertenece a un grupo.
+     */
+    public function grupo()
+    {
+        return $this->belongsTo(Grupo::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumno;
+use App\Models\Grupo;
 use Illuminate\Http\Request;
 
 class AlumnoController extends Controller
@@ -12,7 +13,7 @@ class AlumnoController extends Controller
      */
     public function index()
     {
-        $alumnos = Alumno::all();
+        $alumnos = Alumno::with('grupo')->get();
 
         return view('alumnos.index', compact('alumnos'));
     }
@@ -22,7 +23,12 @@ class AlumnoController extends Controller
      */
     public function create()
     {
-        return view('alumnos.create');
+        $grupos = Grupo::where('activo', true)
+            ->orderBy('grado')
+            ->orderBy('nombre')
+            ->get();
+
+        return view('alumnos.create', compact('grupos'));
     }
 
     /**
@@ -35,8 +41,7 @@ class AlumnoController extends Controller
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
-            'grado' => 'required|integer|min:1|max:6',
-            'grupo' => 'required|string|max:10',
+            'grupo_id' => 'required|exists:grupos,id',
         ]);
 
         Alumno::create($datos);
@@ -61,7 +66,12 @@ class AlumnoController extends Controller
     {
         $alumno = Alumno::findOrFail($id);
 
-        return view('alumnos.edit', compact('alumno'));
+        $grupos = Grupo::where('activo', true)
+            ->orderBy('grado')
+            ->orderBy('nombre')
+            ->get();
+
+        return view('alumnos.edit', compact('alumno', 'grupos'));
     }
 
     /**
@@ -76,8 +86,7 @@ class AlumnoController extends Controller
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
-            'grado' => 'required|integer|min:1|max:6',
-            'grupo' => 'required|string|max:10',
+            'grupo_id' => 'required|exists:grupos,id',
         ]);
 
         $alumno->update($datos);

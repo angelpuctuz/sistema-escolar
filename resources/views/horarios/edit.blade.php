@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -96,7 +95,7 @@
                     <option value="{{ $grupo->id }}"
                         {{ old('grupo_id', $horario->grupo_id) == $grupo->id ? 'selected' : '' }}>
 
-                        {{ $grupo->nombre }}
+                        {{ $grupo->grado }}° {{ $grupo->nombre }}
 
                     </option>
 
